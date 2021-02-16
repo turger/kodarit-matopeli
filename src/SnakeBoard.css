@@ -1,0 +1,22 @@
+.Snake-board {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.Snake-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.tile {
+  width: 25px;
+  height: 25px;
+  border: 1px solid olive;
+}
+
+.blank {
+  background: white;
+}

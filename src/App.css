@@ -5,9 +5,13 @@ https://coolors.co/0b4f6c-ada296-ceff1a-137547-75485e
   text-align: center;
   background-color: #75485E;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-header {
+  min-width: 100%;
   background-color: #137547;
   min-height: 10vh;
   display: flex;
