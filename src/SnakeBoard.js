@@ -17,9 +17,32 @@ const SnakeBoard = () => {
   const [snake, setSnake] = useState([{x: 0, y: 0}]);
   const [direction, setDirection] = useState("right");
 
-  const displayRows = rows.map(row => (
-    <div className="Snake-row">
-      {row.map(tile => <div className={`tile ${tile}`} />)}
+  const changeDirectionWithKeys = e => {
+    const {keyCode} = e;
+    switch (keyCode) {
+      case 37:
+        setDirection("left");
+        break;
+      case 38:
+        setDirection("top");
+        break;
+      case 39:
+        setDirection("right");
+        break;
+      case 40:
+        setDirection("bottom");
+        break;
+      default:
+        break;
+    }
+  };
+  document.addEventListener("keydown", changeDirectionWithKeys);
+
+  const displayRows = rows.map((row, i) => (
+    <div className="Snake-row" key={i}>
+      {row.map((tile, j) => (
+        <div className={`tile ${tile}`} key={`${i}-${j}`} />
+      ))}
     </div>
   ));
 
@@ -36,6 +59,15 @@ const SnakeBoard = () => {
     switch (direction) {
       case "right":
         newSnake.push({x: snake[0].x, y: (snake[0].y + 1) % width});
+        break;
+      case "left":
+        newSnake.push({x: snake[0].x, y: (snake[0].y - 1 + width) % width});
+        break;
+      case "top":
+        newSnake.push({x: (snake[0].x - 1 + height) % height, y: snake[0].y});
+        break;
+      case "bottom":
+        newSnake.push({x: (snake[0].x + 1) % height, y: snake[0].y});
         break;
       default:
         break;
