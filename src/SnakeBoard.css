@@ -12,9 +12,9 @@
 }
 
 .tile {
-  width: 25px;
-  height: 25px;
-  border: 1px solid olive;
+  position: relative;
+  width: 10px;
+  height: 10px;
 }
 
 .blank {
@@ -23,4 +23,17 @@
 
 .snake {
   background: olive;
+}
+
+.food {
+  background: white;
+  /* background: #F5CBA7; */
+}
+
+.food:after {
+  position: absolute;
+  content: "🍔";
+  font-size: 10px;
+  top: -4px;
+  left: 0;
 }
