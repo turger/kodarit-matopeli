@@ -22,3 +22,14 @@ https://coolors.co/0b4f6c-ada296-ceff1a-137547-75485e
   font-size: calc(20px + 3vmin);
   color: #CEFF1A;
 }
+
+button {
+  color: #137547;
+  background-color: #CEFF1A;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}

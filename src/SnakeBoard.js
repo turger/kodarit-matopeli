@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useInterval} from "./utils";
 import "./SnakeBoard.css";
 
-const SnakeBoard = () => {
+const SnakeBoard = ({points, setPoints}) => {
   const height = 30;
   const width = 30;
   var initialRows = [];
@@ -94,6 +94,9 @@ const SnakeBoard = () => {
     if (checkGameOver()) {
       setIsGameOver(true);
       clearInterval(intervalId);
+      const pointsList = JSON.parse(localStorage.getItem("snake-points")) || [];
+      pointsList.push(points);
+      localStorage.setItem("snake-points", JSON.stringify(pointsList));
     }
 
     // Lisätään madolle joka askeleella uusi pala,
@@ -105,6 +108,7 @@ const SnakeBoard = () => {
     const madonPaa = snake[0];
     if (madonPaa.x === food.x && madonPaa.y === food.y) {
       setFood(randomPosition);
+      setPoints(points + 1);
     } else {
       newSnake.pop();
     }
