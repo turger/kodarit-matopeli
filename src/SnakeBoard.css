@@ -1,4 +1,5 @@
 .Snake-board {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,6 +10,16 @@
 .Snake-row {
   display: flex;
   flex-direction: row;
+}
+
+.Game-over {
+  position: absolute;
+  font-family: 'Gorditas', cursive;
+  font-size: 50px;
+  color: purple;
+  background-color: turquoise;
+  font-weight: bold;
+  padding: 10px;
 }
 
 .tile {

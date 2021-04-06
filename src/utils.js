@@ -5,7 +5,7 @@ https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 This useInterval Hook sets up an interval and clears it after unmounting.
 It’s a combo of setInterval and clearInterval tied to the component lifecycle.
 */
-export const useInterval = (callback, delay) => {
+export const useInterval = (callback, delay, setIntervalId) => {
   const savedCallback = useRef();
   // Remember the latest callback.
   useEffect(
@@ -22,9 +22,10 @@ export const useInterval = (callback, delay) => {
       }
       if (delay !== null) {
         let id = setInterval(tick, delay);
+        setIntervalId(id);
         return () => clearInterval(id);
       }
     },
-    [delay]
+    [delay, setIntervalId]
   );
 };

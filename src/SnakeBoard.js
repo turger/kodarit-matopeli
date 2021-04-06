@@ -25,6 +25,8 @@ const SnakeBoard = () => {
   const [snake, setSnake] = useState([{x: 0, y: 0}]);
   const [direction, setDirection] = useState("right");
   const [food, setFood] = useState(randomPosition);
+  const [intervalId, setIntervalId] = useState();
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const changeDirectionWithKeys = e => {
     const {keyCode} = e;
@@ -64,6 +66,12 @@ const SnakeBoard = () => {
     setRows(newRows);
   };
 
+  const checkGameOver = () => {
+    const head = snake[0];
+    const body = snake.slice(1, -1);
+    return body.find(b => b.x === head.x && b.y === head.y);
+  };
+
   const moveSnake = () => {
     const newSnake = [];
     switch (direction) {
@@ -83,6 +91,11 @@ const SnakeBoard = () => {
         break;
     }
 
+    if (checkGameOver()) {
+      setIsGameOver(true);
+      clearInterval(intervalId);
+    }
+
     // Lisätään madolle joka askeleella uusi pala,
     // joka poistetaan jos mato ei saa tällä askeleella ruokaa
     snake.forEach(tile => {
@@ -100,9 +113,14 @@ const SnakeBoard = () => {
     displaySnake();
   };
 
-  useInterval(moveSnake, 150);
+  useInterval(moveSnake, 150, setIntervalId);
 
-  return <div className="Snake-board">{displayRows}</div>;
+  return (
+    <div className="Snake-board">
+      {displayRows}
+      {isGameOver && <div className="Game-over">Game over!</div>}
+    </div>
+  );
 };
 
 export default SnakeBoard;
