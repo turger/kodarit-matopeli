@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import "./App.css";
 import SnakeBoard from "./SnakeBoard";
 import Points from "./Points";
+import LeaderBoard from "./LeaderBoard";
 
 const App = () => {
   const [points, setPoints] = useState(0);
@@ -11,6 +12,7 @@ const App = () => {
       <Points points={points} />
       <SnakeBoard points={points} setPoints={setPoints} />
       <button onClick={() => window.location.reload()}>Uusi peli</button>
+      <LeaderBoard />
     </div>
   );
 };
