@@ -41,6 +41,10 @@
   /* background: #F5CBA7; */
 }
 
+.obstacle {
+  background: black;
+}
+
 .food:after {
   position: absolute;
   content: "🍔";
