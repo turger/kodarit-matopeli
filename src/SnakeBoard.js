@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useInterval, range} from "./utils";
 import "./SnakeBoard.css";
 
 const SnakeBoard = ({points, setPoints}) => {
   const [height, setHeight] = useState(
-    localStorage.getItem("snake-board-size") || 30
+    parseInt(localStorage.getItem("snake-board-size")) || 30
   );
   const [width, setWidth] = useState(
-    localStorage.getItem("snake-board-size") || 30
+    parseInt(localStorage.getItem("snake-board-size")) || 30
   );
   const getInitialRows = () => {
     var initialRows = [];
@@ -62,13 +62,25 @@ const SnakeBoard = ({points, setPoints}) => {
   };
 
   const [obstacle, setObstacle] = useState(randomObstacle());
-  const [rows, setRows] = useState(getInitialRows);
+  const [rows, setRows] = useState(getInitialRows());
   const [snake, setSnake] = useState([{x: 1, y: 1}]);
   const [direction, setDirection] = useState("right");
-  const [food, setFood] = useState(randomPosition);
+  const [food, setFood] = useState(randomPosition());
   const [intervalId, setIntervalId] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
   const [startGame, setStartGame] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(
+    () => {
+      if (width >= 10 && width <= 100 && height >= 10 && height <= 100) {
+        setObstacle(randomObstacle());
+        setRows(getInitialRows());
+        setFood(randomPosition());
+      }
+    },
+    [width, height]
+  );
 
   const changeDirectionWithKeys = e => {
     const {keyCode} = e;
@@ -124,6 +136,7 @@ const SnakeBoard = ({points, setPoints}) => {
   const moveSnake = () => {
     if (!startGame) return;
     const newSnake = [];
+    console.log("direction", direction, width, height, typeof width);
     switch (direction) {
       case "right":
         newSnake.push({x: snake[0].x, y: (snake[0].y + 1) % width});
@@ -132,7 +145,10 @@ const SnakeBoard = ({points, setPoints}) => {
         newSnake.push({x: snake[0].x, y: (snake[0].y - 1 + width) % width});
         break;
       case "top":
-        newSnake.push({x: (snake[0].x - 1 + height) % height, y: snake[0].y});
+        newSnake.push({
+          x: (snake[0].x - 1 + height) % height,
+          y: snake[0].y
+        });
         break;
       case "bottom":
         newSnake.push({x: (snake[0].x + 1) % height, y: snake[0].y});
@@ -183,24 +199,28 @@ const SnakeBoard = ({points, setPoints}) => {
             placeholder="Koko 10-100"
             type="number"
             onChange={e => {
-              const size = e.target.value;
+              const size = parseInt(e.target.value);
               if (size <= 100 && size >= 10) {
                 console.log("OK", size);
                 setWidth(size);
                 setHeight(size);
                 localStorage.setItem("snake-board-size", size);
-                // TODO: error messages & useEffect
+                setError(null);
               } else {
                 console.error("ei hyvä", size);
+                setError(
+                  `Pelilaudan koko on liian ${size > 100 ? "suuri" : "pieni"}`
+                );
               }
             }}
           />
+          {error && <div className="Error">{error}</div>}
           <button className="Start-game" onClick={setStartGame}>
             Aloita peli
           </button>
         </>
       )}
-      {displayRows}
+      {startGame && displayRows}
       {isGameOver && <div className="Game-over">Game over!</div>}
     </div>
   );

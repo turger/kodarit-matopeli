@@ -52,3 +52,7 @@
   top: -4px;
   left: 0;
 }
+
+.Error {
+  color: red;
+}
